@@ -29,13 +29,14 @@ app.post('/generate/p0', async (req, res) => {
 
     const { p0Output, categoryName, runId, runLabel, totalReviews, totalProducts } = body || {};
 
-    if (!p0Output) {
-      return res.status(400).json({
-        error: 'Missing p0Output in request body',
-        receivedType: typeof body,
-        receivedKeys: body ? Object.keys(body) : 'null'
-      });
-    }
+if (!p0Output) {
+  return res.status(400).json({
+    error: 'Missing p0Output in request body',
+    receivedType: typeof body,
+    receivedKeys: body ? Object.keys(body) : 'null',
+    bodyPreview: JSON.stringify(body).slice(0, 500)
+  });
+}
 
     const docxBuffer = await generateP0Docx(
       p0Output, categoryName, runId, runLabel, totalReviews, totalProducts
