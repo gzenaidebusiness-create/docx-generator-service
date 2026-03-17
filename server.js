@@ -7,7 +7,7 @@ app.use(express.text({ type: '*/*', limit: '50mb' }));
 const { generateP0Docx } = require('./generator');
 
 app.get('/', (req, res) => {
-  res.json({ status: 'ok', service: 'docx-generator', version: '3.0.0' });
+  res.json({ status: 'ok', service: 'docx-generator', version: '4.0.0' });
 });
 
 app.post('/generate/p0', async (req, res) => {
