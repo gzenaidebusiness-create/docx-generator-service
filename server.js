@@ -13,11 +13,20 @@ app.get('/', (req, res) => {
 app.post('/generate/p0', async (req, res) => {
   try {
     let body = req.body;
-    
-    // If body came in as text (n8n sometimes sends raw text), parse it
-    if (typeof body === 'string') {
-      try { body = JSON.parse(body); } catch(e) {}
-    }
+
+// Handle n8n sending JSON as a URL-encoded key
+if (typeof body === 'object' && body !== null) {
+  const keys = Object.keys(body);
+  if (keys.length === 1 && keys[0] !== 'p0Output') {
+    // The entire JSON was sent as the key name
+    try { body = JSON.parse(keys[0]); } catch(e) {}
+  }
+}
+
+// Handle string body
+if (typeof body === 'string') {
+  try { body = JSON.parse(body); } catch(e) {}
+}
 
     const { p0Output, categoryName, runId, runLabel, totalReviews, totalProducts } = body || {};
     if (!p0Output) {
